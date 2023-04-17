@@ -1,0 +1,207 @@
+diff --git a/node_modules/react-native-image-picker/README.md b/node_modules/react-native-image-picker/README.md
+index 1bd2b14..a15eb04 100644
+--- a/node_modules/react-native-image-picker/README.md
++++ b/node_modules/react-native-image-picker/README.md
+@@ -42,7 +42,7 @@ Add the appropriate keys to your `Info.plist` depending on your requirement:
+ | ------------------------------ | --------------------------------------------------- |
+ | Select image/video from photos | NSPhotoLibraryUsageDescription                      |
+ | Capture Image                  | NSCameraUsageDescription                            |
+-| Capture Video                  | NSCameraUsageDescription & NSCameraUsageDescription |
++| Capture Video                  | NSCameraUsageDescription & NSMicrophoneUsageDescription |
+ 
+ ### Android
+ 
+diff --git a/node_modules/react-native-image-picker/android/src/main/java/com/imagepicker/Utils.java b/node_modules/react-native-image-picker/android/src/main/java/com/imagepicker/Utils.java
+index 7a3710e..1e9078d 100644
+--- a/node_modules/react-native-image-picker/android/src/main/java/com/imagepicker/Utils.java
++++ b/node_modules/react-native-image-picker/android/src/main/java/com/imagepicker/Utils.java
+@@ -156,10 +156,18 @@ public class Utils {
+ 
+     public static int[] getImageDimensions(Uri uri, Context reactContext) {
+         try (InputStream inputStream = reactContext.getContentResolver().openInputStream(uri)) {
++
++            String orientation = getOrientation(uri,reactContext);
++
+             BitmapFactory.Options options = new BitmapFactory.Options();
+             options.inJustDecodeBounds = true;
+             BitmapFactory.decodeStream(inputStream, null, options);
+-            return new int[]{options.outWidth, options.outHeight};
++            if (needToSwapDimension(orientation)) {
++                return new int[]{options.outHeight, options.outWidth};
++            }else {
++                return new int[]{options.outWidth, options.outHeight};
++            }
++
+         } catch (IOException e) {
+             e.printStackTrace();
+             return new int[]{0, 0};
+@@ -168,7 +176,7 @@ public class Utils {
+ 
+     static boolean hasPermission(final Activity activity) {
+         final int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+-        return writePermission == PackageManager.PERMISSION_GRANTED ? true : false;
++        return writePermission == PackageManager.PERMISSION_GRANTED;
+     }
+ 
+     static String getBase64String(Uri uri, Context reactContext) {
+@@ -189,6 +197,11 @@ public class Utils {
+         }
+     }
+ 
++    private static boolean needToSwapDimension(String orientation){
++        return orientation.equals(String.valueOf(ExifInterface.ORIENTATION_ROTATE_90))
++                || orientation.equals(String.valueOf(ExifInterface.ORIENTATION_ROTATE_270));
++    }
++
+     // Resize image
+     // When decoding a jpg to bitmap all exif meta data will be lost, so make sure to copy orientation exif to new file else image might have wrong orientations
+     public static Uri resizeImage(Uri uri, Context context, Options options) {
+@@ -204,10 +217,14 @@ public class Utils {
+             try (InputStream imageStream = context.getContentResolver().openInputStream(uri)) {
+                 String mimeType = getMimeType(uri, context);
+                 Bitmap b = BitmapFactory.decodeStream(imageStream);
+-
+-                b = Bitmap.createScaledBitmap(b, newDimens[0], newDimens[1], true);
+                 String originalOrientation = getOrientation(uri, context);
+ 
++                if (needToSwapDimension(originalOrientation)) {
++                    b = Bitmap.createScaledBitmap(b, newDimens[1], newDimens[0], true);
++                }else {
++                    b = Bitmap.createScaledBitmap(b, newDimens[0], newDimens[1], true);
++                }
++
+                 File file = createFile(context, getFileTypeFromMime(mimeType));
+ 
+                 try (OutputStream os = context.getContentResolver().openOutputStream(Uri.fromFile(file))) {
+diff --git a/node_modules/react-native-image-picker/ios/ImagePickerManager.mm b/node_modules/react-native-image-picker/ios/ImagePickerManager.mm
+index cce30e2..93e99be 100644
+--- a/node_modules/react-native-image-picker/ios/ImagePickerManager.mm
++++ b/node_modules/react-native-image-picker/ios/ImagePickerManager.mm
+@@ -4,8 +4,7 @@
+ #import <AVFoundation/AVFoundation.h>
+ #import <Photos/Photos.h>
+ #import <PhotosUI/PhotosUI.h>
+-
+-@import MobileCoreServices;
++#import <MobileCoreServices/MobileCoreServices.h>
+ 
+ @interface ImagePickerManager ()
+ 
+@@ -104,6 +103,7 @@ RCT_EXPORT_METHOD(launchImageLibrary:(NSDictionary *)options callback:(RCTRespon
+     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+     [ImagePickerUtils setupPickerFromOptions:picker options:self.options target:target];
+     picker.delegate = self;
++    picker.presentationController.delegate = self;
+     
+     if([self.options[@"includeExtra"] boolValue]) {
+         [self checkPhotosPermissions:^(BOOL granted) {
+diff --git a/node_modules/react-native-image-picker/lib/typescript/types.d.ts b/node_modules/react-native-image-picker/lib/typescript/types.d.ts
+index 6d66ef1..93b4a03 100644
+--- a/node_modules/react-native-image-picker/lib/typescript/types.d.ts
++++ b/node_modules/react-native-image-picker/lib/typescript/types.d.ts
+@@ -24,6 +24,7 @@ export interface Asset {
+     uri?: string;
+     width?: number;
+     height?: number;
++    originalPath?: string;
+     fileSize?: number;
+     type?: string;
+     fileName?: string;
+diff --git a/node_modules/react-native-image-picker/react-native-image-picker.podspec b/node_modules/react-native-image-picker/react-native-image-picker.podspec
+index 225f965..3d469bc 100644
+--- a/node_modules/react-native-image-picker/react-native-image-picker.podspec
++++ b/node_modules/react-native-image-picker/react-native-image-picker.podspec
+@@ -14,26 +14,32 @@ Pod::Spec.new do |s|
+ 
+   s.source       = { :git => "https://github.com/react-native-image-picker/react-native-image-picker.git", :tag => "v#{s.version}" }
+   s.source_files  = "ios/*.{h,m,mm}"
+-  s.pod_target_xcconfig = { 'OTHER_CPLUSPLUSFLAGS' => '-fcxx-modules' }
+ 
+-  if ENV['RCT_NEW_ARCH_ENABLED'] == '1'
+-    folly_compiler_flags = '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32'
++  s.frameworks             = "MobileCoreServices"
+ 
+-    s.pod_target_xcconfig = {
+-      'HEADER_SEARCH_PATHS' => '"$(PODS_ROOT)/boost" "$(PODS_ROOT)/boost-for-react-native" "$(PODS_ROOT)/RCT-Folly"',
+-      'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17'
+-    }
+-
+-    s.compiler_flags  = folly_compiler_flags + ' -DRN_FABRIC_ENABLED -fmodules -fcxx-modules'
+-
+-    s.dependency "React"
+-    s.dependency "React-RCTFabric" # This is for fabric component
+-    s.dependency "React-Codegen"
+-    s.dependency "RCT-Folly"
+-    s.dependency "RCTRequired"
+-    s.dependency "RCTTypeSafety"
+-    s.dependency "ReactCommon/turbomodule/core"
++  if defined?(install_modules_dependencies) != nil
++    install_modules_dependencies(s)
+   else
+-    s.dependency "React-Core"
++
++    if ENV['RCT_NEW_ARCH_ENABLED'] == '1'
++      folly_compiler_flags = '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32'
++
++      s.pod_target_xcconfig = {
++        'HEADER_SEARCH_PATHS' => '"$(PODS_ROOT)/boost" "$(PODS_ROOT)/boost-for-react-native" "$(PODS_ROOT)/RCT-Folly"',
++        'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17'
++      }
++
++      s.compiler_flags  = folly_compiler_flags + ' -DRN_FABRIC_ENABLED -fmodules -fcxx-modules'
++
++      s.dependency "React"
++      s.dependency "React-RCTFabric" # This is for fabric component
++      s.dependency "React-Codegen"
++      s.dependency "RCT-Folly"
++      s.dependency "RCTRequired"
++      s.dependency "RCTTypeSafety"
++      s.dependency "ReactCommon/turbomodule/core"
++    else
++      s.dependency "React-Core"
++    end
+   end
+ end
+diff --git a/node_modules/react-native-image-picker/src/platforms/native.ts b/node_modules/react-native-image-picker/src/platforms/native.ts
+index 4ae5b8d..e2c293f 100644
+--- a/node_modules/react-native-image-picker/src/platforms/native.ts
++++ b/node_modules/react-native-image-picker/src/platforms/native.ts
+@@ -26,7 +26,7 @@ const DEFAULT_OPTIONS: ImageLibraryOptions & CameraOptions = {
+ // @ts-ignore We want to check whether __turboModuleProxy exitst, it may not
+ const isTurboModuleEnabled = global.__turboModuleProxy != null;
+ 
+-const nativeImagePicler = isTurboModuleEnabled ?
++const nativeImagePicker = isTurboModuleEnabled ?
+   require("./NativeImagePicker").default :
+   NativeModules.ImagePicker;
+ 
+@@ -35,7 +35,7 @@ export function camera(
+   callback?: Callback,
+ ): Promise<ImagePickerResponse> {
+   return new Promise((resolve) => {
+-    nativeImagePicler.launchCamera(
++    nativeImagePicker.launchCamera(
+       {...DEFAULT_OPTIONS, ...options},
+       (result: ImagePickerResponse) => {
+         if (callback) callback(result);
+@@ -50,7 +50,7 @@ export function imageLibrary(
+   callback?: Callback,
+ ): Promise<ImagePickerResponse> {
+   return new Promise((resolve) => {
+-    nativeImagePicler.launchImageLibrary(
++    nativeImagePicker.launchImageLibrary(
+       {...DEFAULT_OPTIONS, ...options},
+       (result: ImagePickerResponse) => {
+         if (callback) callback(result);
+diff --git a/node_modules/react-native-image-picker/src/types.ts b/node_modules/react-native-image-picker/src/types.ts
+index e8bca70..1b4555c 100644
+--- a/node_modules/react-native-image-picker/src/types.ts
++++ b/node_modules/react-native-image-picker/src/types.ts
+@@ -38,6 +38,7 @@ export interface Asset {
+   uri?: string;
+   width?: number;
+   height?: number;
++  originalPath?: string;
+   fileSize?: number;
+   type?: string;
+   fileName?: string;
