@@ -1,45 +1,38 @@
 import { Button, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import React, { useState } from 'react';
 import DateTimePicker from '../component/date_time_picker/DateTimePicker';
-import { registerEvent } from './RegisterEventClient';
 
-const CreateEventView = () => {
+const PayVendorView = ({ navigation, route}) => {
 
-    const [eventName, setEventName] = useState("");
-    const [location, setLocation] = useState("");
-    const [dateTime, setDateTime] = useState("");
+    const {vendorName} = route.params;
+
+    const [accountNumber, setAccountNumber] = useState("123456789");
+    const [bankName, setBankName] = useState("BCA");
+
 
     return (
         <View style={styles.container}>
             <View style={styles.fieldContainer}>
                 <Text
                     style={styles.bigTitle}>
-                    Create an Event
+                    Bank Transfer to {bankName}
                 </Text>
-                <View style={styles.inputContainer}>
-                    <Text
-                        style={styles.inputTitle}>
-                        Event Name
-                    </Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setEventName}
-                    />
-                </View>
 
                 <View style={styles.inputContainer}>
                     <Text
                         style={styles.inputTitle}>
-                        Location
+                        Account Number: {accountNumber}
                     </Text>
-                    <TextInput
+                    {/* <TextInput
                         style={styles.input}
                         onChangeText={setLocation}
-                    />
-                </View>
-                <DateTimePicker onChange={setDateTime}/>
+                    />*/}
+                </View> 
             </View>
-            <Button title={"Create the Event"} onPress={() => registerEvent(eventName, location, dateTime)} />
+            <View style={styles.vendorDetailsOrderNowButton}>
+                    <Button style={styles.vendorDetailsOrderNowButton} title={"Check payment status"}  color="#EFD0DD" onPress={() => navigation.navigate('BookVendorView', route.params)}/>
+            </View>
+            {/* <Button title={"Create the Event"} onPress={() => registerEvent(eventName, location, dateTime)} /> */}
         </View >
     )
 }
@@ -80,4 +73,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default CreateEventView;
+export default PayVendorView;

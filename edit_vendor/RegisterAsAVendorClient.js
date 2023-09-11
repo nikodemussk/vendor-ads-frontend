@@ -1,11 +1,11 @@
 import { EnviornmentVariable } from "../component/environment/EnvironmentVariable";
 
 
-export const registerEvent = (eventName, location, dateTime) => {
+export const updateVendor = (vendorName, vendorCategoryType, vendorLocation) => {
     let bodyData = {
-        "eventName": eventName,
-        "location": location,
-        "dateTime": dateTime
+        "vendorName": vendorName,
+        "vendorCategoryType": vendorCategoryType,
+        "vendorLocation": vendorLocation
     }
 
     const requestOptions = {
@@ -15,7 +15,7 @@ export const registerEvent = (eventName, location, dateTime) => {
         body: JSON.stringify(bodyData)
     };
 
-    fetch(EnviornmentVariable.API_BASE_URL + '/event/create', requestOptions)
+    fetch(EnviornmentVariable.API_BASE_URL + '/vendor/register', requestOptions)
         .then(response => response.text())
         .then(text => console.log(text))
         .catch(e => console.log(e));

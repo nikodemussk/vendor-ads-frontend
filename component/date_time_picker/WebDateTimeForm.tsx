@@ -46,28 +46,55 @@ const WebDateTimeForm: any = (props: any) => {
 
     useEffect(() => { onChange() }, [day, month, year, month, hour, minutes])
 
-    let styles = StyleSheet.create({
-        fieldContainer: {
-            display: "flex",
-            flexDirection: "row",
-            maxWidth: "100%",
-            marginBottom: '2em'
-        },
-        inputTitle: {
-            color: '#B5B4B0',
-            textAlign: 'left',
-            alignItems: 'left',
-            fontSize: '1rem',
-            marginBottom: '0.7em'
-        },
-        inputBox: {
-            maxWidth: '3em',
-            textAlign: 'center',
-            backgroundColor: '#FFF',
-            borderBottomWidth: '1px',
-            borderColor: '#B5B4B0'
-        }
-    })
+    let styles;
+
+    if (Platform.OS !== "android") {
+        styles = StyleSheet.create({
+            fieldContainer: {
+                display: "flex",
+                flexDirection: "row",
+                maxWidth: "100%",
+                marginBottom: '2em'
+            },
+            inputTitle: {
+                color: '#B5B4B0',
+                textAlign: 'left',
+                alignItems: 'left',
+                fontSize: '1rem',
+                marginBottom: '0.7em'
+            },
+            inputBox: {
+                maxWidth: '3em',
+                textAlign: 'center',
+                backgroundColor: '#FFF',
+                borderBottomWidth: '1px',
+                borderColor: '#B5B4B0'
+            }
+        })
+    } else {
+        styles = StyleSheet.create({
+            fieldContainer: {
+                display: "flex",
+                flexDirection: "row",
+                maxWidth: "100%",
+                marginBottom: '2em'
+            },
+            inputTitle: {
+                color: '#B5B4B0',
+                textAlign: 'left',
+                alignItems: 'flex-start',
+                fontSize: 1,
+                marginBottom: '0.7em'
+            },
+            inputBox: {
+                maxWidth: '3em',
+                textAlign: 'center',
+                backgroundColor: '#FFF',
+                borderBottomWidth: 1,
+                borderColor: '#B5B4B0'
+            }
+        })
+    }
 
     return (
         <View>
