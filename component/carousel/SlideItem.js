@@ -8,10 +8,11 @@ import {
   Easing,
 } from 'react-native';
 import React from 'react';
+import { Platform } from 'react-native';
 
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
-const SlideItem = ({item, index}) => {
+const SlideItem = ({ item, index }) => {
   const translateYImage = new Animated.Value(0);
 
   Animated.timing(translateYImage, {
@@ -38,7 +39,7 @@ const SlideItem = ({item, index}) => {
         ]}
       />
 
-      <View style={styles.content} 
+      <View style={styles.content}
       // style={index==0 ? {marginLeft: '0'} : {marginLeft: '-20px'}}
       >
         <Text style={styles.title}>{item.title}</Text>
@@ -51,33 +52,35 @@ const SlideItem = ({item, index}) => {
 
 export default SlideItem;
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    alignItems: 'center',
-    // marginRight: '-15%'
-  },
-  image: {
-    flex: 0.2,
-    width: '80%',
-  },
-  content: {
-    width: '10%',
-    flex: 0.6,
-    alignItems: 'left',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  description: {
-    fontSize: 18,
-    marginVertical: 12,
-    color: '#333',
-  },
-  price: {
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-});
+if (Platform.OS === "web") {
+  const styles = StyleSheet.create({
+    container: {
+      width: '100%',
+      alignItems: 'center',
+      // marginRight: '-15%'
+    },
+    image: {
+      flex: 0.2,
+      width: '80%',
+    },
+    content: {
+      width: '10%',
+      flex: 0.6,
+      alignItems: 'left',
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: '#333',
+    },
+    description: {
+      fontSize: 18,
+      marginVertical: 12,
+      color: '#333',
+    },
+    price: {
+      fontSize: 32,
+      fontWeight: 'bold',
+    },
+  });
+}

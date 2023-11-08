@@ -33,17 +33,17 @@ export async function checkIfUserIsAVendor(setRegisteredAsAVendor, setVendorUUID
             method: 'GET',
             headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
             mode: 'cors',
-            // body: JSON.stringify(bodyData)
         };
-        console.log("UUID Userr: " + userUUID)
     
         return fetch(EnviornmentVariable.API_BASE_URL + '/user/vendor/list?userUUID=' + userUUID, requestOptions)
             .then(response => response.json())
             .then(responseBody => {
-                console.log(responseBody)
+                // console.log(responseBody)
                 if (responseBody.length > 0) {
                     setRegisteredAsAVendor(true);
                     setVendorUUID(responseBody[0].vendorId)
+                    AsyncStorage.setItem("vendorUUID", responseBody[0].vendorId)
+                    AsyncStorage.setItem("vendorName", responseBody[0].vendorName)
                 }
             })
             .catch(e => console.log(e));

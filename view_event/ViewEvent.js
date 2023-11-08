@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { getEventList } from "./ViewEventClient";
+import { Platform } from 'react-native';
 
 const ViewEvent = ({ navigation }) => {
 
@@ -17,7 +18,7 @@ const ViewEvent = ({ navigation }) => {
                 <Text style={styles.bigTitle}>
                     View an Event
                 </Text>
-                <Button 
+                <Button
                     title={"Create an event"}
                     onPress={() => navigation.navigate('CreateEvent')} />
 
@@ -32,39 +33,41 @@ const ViewEvent = ({ navigation }) => {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        // display: 'flex',
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%'
-    },
-    fieldContainer: {
-        width: '70%'
-    },
-    input: {
-        textAlign: 'center',
-        backgroundColor: '#FFF',
-        borderBottomWidth: '1px',
-        borderColor: '#B5B4B0'
-    },
-    eventTitle: {
-        color: '#B5B4B0',
-        textAlign: 'left',
-        alignItems: 'left',
-        fontSize: '1rem',
-        marginBottom: '0.7em'
-    },
-    inputContainer: {
-        width: '100%',
-        marginBottom: '2em'
-    },
-    bigTitle: {
-        fontSize: '2em',
-        fontWeight: '700',
-        marginBottom: '1.5em'
-    }
-});
+if (Platform.OS === "web") {
+    const styles = StyleSheet.create({
+        container: {
+            // display: 'flex',
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%'
+        },
+        fieldContainer: {
+            width: '70%'
+        },
+        input: {
+            textAlign: 'center',
+            backgroundColor: '#FFF',
+            borderBottomWidth: '1px',
+            borderColor: '#B5B4B0'
+        },
+        eventTitle: {
+            color: '#B5B4B0',
+            textAlign: 'left',
+            alignItems: 'left',
+            fontSize: '1rem',
+            marginBottom: '0.7em'
+        },
+        inputContainer: {
+            width: '100%',
+            marginBottom: '2em'
+        },
+        bigTitle: {
+            fontSize: '2em',
+            fontWeight: '700',
+            marginBottom: '1.5em'
+        }
+    });
+}
 
 export default ViewEvent;

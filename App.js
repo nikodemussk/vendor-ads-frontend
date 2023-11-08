@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import CreateEvent from './create_event/CreateEvent';
 import ViewEvent from './view_event/ViewEvent';
 import { NavigationContainer } from '@react-navigation/native';
@@ -20,47 +20,52 @@ import HomeScreen from './home/Home';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-  
+
   return (
 
     // <NavigationContainer>
     //  <BottomNavigation />
     // </NavigationContainer>
-
-
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false
-        }}>
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ title: 'Login' }}>
-        </Stack.Screen>
-        <Stack.Screen
-          name="RegisterAccount"
-          component={RegisterAccount}
-          options={{ title: 'Register Account' }}>
-        </Stack.Screen>
-        <Stack.Screen
-          name="BottomNavigation"
-          component={BottomNavigation}
-          backBehavior="none"
-        // options={{ title: 'Login' }}
-        >
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+    // <SafeAreaView style={styles.container}>
+    // <View style={styles.content}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false
+          }}>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ title: 'Login' }}>
+          </Stack.Screen>
+          <Stack.Screen
+            name="RegisterAccount"
+            component={RegisterAccount}
+            options={{ title: 'Register Account' }}>
+          </Stack.Screen>
+          <Stack.Screen
+            name="BottomNavigation"
+            component={BottomNavigation}
+            backBehavior="none"
+          // options={{ title: 'Login' }}
+          >
+          </Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+      // </View>
+      // </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%'
-    // flex: 1,
-    // backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    flex: 1,
+    paddingVertical: 15,
+    alignItems: "center",
+  },
+  content: {
+    flex: 1,
+    width: "100%",
+    maxWidth: 450,
   },
 });

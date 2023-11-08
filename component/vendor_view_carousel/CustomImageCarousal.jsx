@@ -80,6 +80,7 @@ const VendorViewCustomImageCarousal = ({ data, autoPlay, pagination }) => {
         bounces={false}
         showsHorizontalScrollIndicator={false}>
         {newData.map((item, index) => {
+          console.log(item)
           return (
             <View style={styles.eventCarousel}>
               <CustomImage
@@ -90,12 +91,6 @@ const VendorViewCustomImageCarousal = ({ data, autoPlay, pagination }) => {
                 size={SIZE}
                 spacer={SPACER}
               />
-              {/*13 char */}
-              <View style={{ width: "100%", marginLeft: "2%" }}>
-                {/* <Text style={styles.carouselText}>Jakarta Convention Center</Text> */}
-                {/* <Text style={styles.carouselText}><Icon name={"location-outline"} /> Kuningan, Jakarta</Text> */}
-                {/* <Text style={styles.carouselText}><Icon name={"calendar-outline"} /> 30 Feb 2045 15:30</Text> */}
-              </View>
             </View>
           );
         })}

@@ -8,6 +8,8 @@ import VendorListNavigation from '../view_vendor_list/VendorListNavigation';
 // import ViewVendorList from '../view_vendor_list/ViewVendorList';
 import ViewProfile from '../profile/ViewProfile';
 import ViewProfileNavigation from '../profile/ViewProfileNavigation';
+import MessagingView from '../messaging_client/MessagingView';
+import VendorAdminPage from '../vendor_admin_page/VendorAdminPage';
 
 
 const BottomNavigation = () => {
@@ -24,8 +26,6 @@ const BottomNavigation = () => {
             tabBarActiveTintColor: '#e91e63',
         }}
         >
-            {/* <Tab.Screen name="Event" component={ViewEvent} />
-            <Tab.Screen name="Create Event" component={CreateEvent} /> */}
             <Tab.Screen
                 name="Home"
                 component={HomeViewNavigation}
@@ -44,6 +44,11 @@ const BottomNavigation = () => {
                 component={ViewProfileNavigation}
                 options={{ title: 'Profile' }}>
             </Tab.Screen>
+            {/* <Tab.Screen
+                name="VendorAdminPage"
+                component={VendorAdminPage}
+                options={{ title: 'VendorAdminPage' }}>
+            </Tab.Screen> */}
         </Tab.Navigator>
     )
 }

@@ -6,16 +6,30 @@ import { styles } from "../component/styles/CommonStyles";
 import CustomImageCarousal from "../component/carousel2/CustomImageCarousal"
 import { ScrollView } from "react-native-gesture-handler";
 import EventCustomImageCarousal from "../component/event_carousel/CustomImageCarousal";
+import { getCateringData, getData } from "./HomePageClient";
 
 const HomeScreen = ({ navigation }) => {
 
-    const [data, setData] = useState([]);
+    const [venueVendorData, setVenueData] = useState([]);
+    const [cateringAdsData, setCateringAdsData] = useState([]);
+    const [photographyVendorData, setPhotographyData] = useState([]);
+    const [eventPlannerVendorData, setEventPlannerData] = useState([]);
+    const [partyDecorPlannerVendorData, setPartyDecorPlannerVendorData] = useState([]);
+
+
+    const [eventData, setEventData] = useState([]);
 
     const width = Dimensions.get('window').width;
 
-    // useEffect(() => {
-    //     getEventList().then(data => setData(data));
-    // }, []);
+    useEffect(() => {
+        getCateringData()
+        .then(response => setCateringAdsData(response))
+
+        getData("Venue").then(setVenueData)
+        getData("Photography").then(setPhotographyData)
+        getData("Event Planner").then(setEventPlannerData)
+        getData("Party Decor Planner").then(setPartyDecorPlannerVendorData)
+    }, []);
 
     const _renderItem = ({item,index}) => {
         return (
@@ -33,67 +47,43 @@ const HomeScreen = ({ navigation }) => {
         )
     }
 
-    const aaaa = [
-        {
-            image: require('../assets/1.jpg'),
-        },
-        {
-            image: require('../assets/1.jpg'),
-        },
-        {
-            image: require('../assets/1.jpg'),
-        },
-        {
-            image: require('../assets/1.jpg'),
-        },
-        {
-            image: require('../assets/1.jpg'),
-        }
-      ];
-
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.fieldContainer}>
                 <Text style={styles.bigTitle}>
                     Find your perfect venue
                 </Text>
-               {/* <Slider style={{width: "100px"}} /> */}
-               <CustomImageCarousal data={aaaa} autoPlay={false} pagination={true} navigation={navigation}/>
-                {data != undefined && data.map(datum =>
-                    <View>
-                        <Text style={styles.eventTitle}>{datum.name}</Text>
-                        <Text>{datum.location}</Text>
-                        <Text>{new Date(datum.dateTime * 1000).toISOString()}</Text>
-                    </View>)}
+               {venueVendorData !== [] && <CustomImageCarousal data={venueVendorData} autoPlay={false} pagination={true} navigation={navigation}/>}
             </View>
-            <View style={styles.highlightedContainer}>
+            {/* <View style={styles.highlightedContainer}>
                 <Text style={styles.bigTitle}>
                     Upcoming Public Event
                 </Text>
 
-                <EventCustomImageCarousal data={aaaa} autoPlay={false} pagination={true} navigation={navigation}/>
+                {(eventData[0] !== undefined && eventData[0].images !== undefined) ? <EventCustomImageCarousal data={eventData} autoPlay={false} pagination={true} navigation={navigation}/> : ""}
 
-            </View>
+            </View> */}
             <View style={styles.fieldContainer}>
                 <Text style={styles.bigTitle}>
                     Event Planner
                 </Text>
 
-                <CustomImageCarousal data={aaaa} autoPlay={false} pagination={true} navigation={navigation}/>
+                {eventPlannerVendorData.length > 0 && <CustomImageCarousal data={eventPlannerVendorData} autoPlay={false} pagination={true} navigation={navigation}/>}
 
-                {/* {data != undefined && data.map(datum =>
-                    <View>
-                        <Text style={styles.eventTitle}>{datum.name}</Text>
-                        <Text>{datum.location}</Text>
-                        <Text>{new Date(datum.dateTime * 1000).toISOString()}</Text>
-                    </View>)} */}
+            </View>
+            <View style={styles.fieldContainer}>
+                <Text style={styles.bigTitle}>
+                    Food & Catering
+                </Text>
+
+                {cateringAdsData.length > 0 && <CustomImageCarousal data={cateringAdsData} autoPlay={false} pagination={true} navigation={navigation}/>}
             </View>
             <View style={styles.fieldContainer}>
                 <Text style={styles.bigTitle}>
                     Photography
                 </Text>
 
-                <CustomImageCarousal data={aaaa} autoPlay={false} pagination={true} navigation={navigation}/>
+                {photographyVendorData.length > 0 && <CustomImageCarousal data={photographyVendorData} autoPlay={false} pagination={true} navigation={navigation}/>}
             </View>
 
             <View style={styles.fieldContainer}>
@@ -101,7 +91,7 @@ const HomeScreen = ({ navigation }) => {
                     Party Decor
                 </Text>
 
-                <CustomImageCarousal data={aaaa} autoPlay={false} pagination={true} navigation={navigation}/>
+                {partyDecorPlannerVendorData.length > 0 && <CustomImageCarousal data={partyDecorPlannerVendorData} autoPlay={false} pagination={true} navigation={navigation}/>}
             </View>
         </ScrollView>
     )

@@ -17,6 +17,7 @@ const EventCustomImageCarousal = ({ data, autoPlay, pagination }) => {
   const [newData, setNewData] = useState([
     // {key: 'spacer-left'},
     ...data,
+    // {"image": data.images[0].imageFileName}
     // {key: 'spacer-right'},
   ]);
   const { width } = useWindowDimensions();
@@ -27,6 +28,7 @@ const EventCustomImageCarousal = ({ data, autoPlay, pagination }) => {
 
   // Update newData if data change
   useEffect(() => {
+    // console.log(data)
     setNewData([
       // {key: 'spacer-left'}, 
       ...data,
@@ -80,6 +82,7 @@ const EventCustomImageCarousal = ({ data, autoPlay, pagination }) => {
         bounces={false}
         showsHorizontalScrollIndicator={false}>
         {newData.map((item, index) => {
+          // console.log(item)
           return (
             <View style={styles.eventCarousel}>
               <CustomImage

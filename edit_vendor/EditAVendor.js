@@ -15,7 +15,7 @@ const EditAVendor = () => {
     const BUTTON_SIZE = (width - (width * 0.08)) * 0.49;
 
     // useEffect(() => {
-        
+
     // }, [])
 
     return (
@@ -71,9 +71,9 @@ const EditAVendor = () => {
                         margin: "2%",
                         backgroundColor: "#EFD0DD",
                         borderColor: "#EFD0DD",
-                        borderWidth: "medium",
+                        // borderWidth: "medium",
                         aspectRatio: "6/1",
-                        borderRadius: "10px"
+                        // borderRadius: "10px"
                     }}
                     onPress={() => registerVendor(vendorName, vendorCategoryType, vendorLocation)}>
                     <Text style={{ margin: "auto", color: "#FFFFFF" }}>Register Now</Text>
@@ -83,40 +83,42 @@ const EditAVendor = () => {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        // display: 'flex',
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%'
-    },
-    fieldContainer: {
-        width: '70%'
-    },
-    input: {
-        textAlign: 'center',
-        backgroundColor: '#FFF',
-        borderBottomWidth: '1px',
-        borderColor: '#B5B4B0'
-    },
-    inputTitle: {
-        color: '#B5B4B0',
-        textAlign: 'left',
-        alignItems: 'left',
-        fontSize: '1rem',
-        marginBottom: '0.7em'
-    },
-    inputContainer: {
-        width: '100%',
-        marginBottom: '2em'
-    },
-    bigTitle: {
-        fontSize: '2em',
-        fontWeight: '700',
-        marginBottom: '1.5em'
-    }
-});
+if (Platform.OS === "web") {
+    const styles = StyleSheet.create({
+        container: {
+            // display: 'flex',
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%'
+        },
+        fieldContainer: {
+            width: '70%'
+        },
+        input: {
+            textAlign: 'center',
+            backgroundColor: '#FFF',
+            borderBottomWidth: '1px',
+            borderColor: '#B5B4B0'
+        },
+        inputTitle: {
+            color: '#B5B4B0',
+            textAlign: 'left',
+            alignItems: 'left',
+            fontSize: '1rem',
+            marginBottom: '0.7em'
+        },
+        inputContainer: {
+            width: '100%',
+            marginBottom: '2em'
+        },
+        bigTitle: {
+            fontSize: '2em',
+            fontWeight: '700',
+            marginBottom: '1.5em'
+        }
+    });
+}
 
 
 export default RegisterAsAVendor;

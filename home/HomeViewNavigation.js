@@ -5,14 +5,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './Home';
 import VendorDetailsView from '../vendor_details/VendorDetailsView';
 import PayVendorView from '../pay_vendor/PayVendorView';
-
-// function HomeScreen() {
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Text>Home Screen</Text>
-//     </View>
-//   );
-// }
+import MessagingView from '../messaging_client/MessagingView';
+import VendorAdminPage from '../vendor_admin_page/VendorAdminPage';
+import { CreateAdvertisementReview } from '../advertisement_review/CreateAdverisementReview';
 
 export default function HomeViewNavigation() {
     const Stack = createNativeStackNavigator();
@@ -42,6 +37,13 @@ export default function HomeViewNavigation() {
                     component={PayVendorView}
                     //   backBehavior="none"
                     options={{ title: 'Vendor Details' }}
+                >
+                </Stack.Screen>
+                <Stack.Screen
+                    name="CreateAdvertisementReview"
+                    component={CreateAdvertisementReview}
+                    //   backBehavior="none"
+                    options={{ title: 'Create Advertisement Review' }}
                 >
                 </Stack.Screen>
             </Stack.Navigator>

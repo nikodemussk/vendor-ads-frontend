@@ -7,6 +7,9 @@ import VendorDetailsView from '../vendor_details/VendorDetailsView';
 import ViewVendorCategory from '../view_vendor_category/ViewVendorCategory';
 import ViewProfile from './ViewProfile';
 import RegisterAsAVendor from '../register_as_a_vendor/RegisterAsAVendor';
+import AllMessagingView from '../messaging_vendor/AllMessageView';
+import CreateAnAds from '../create_an_ads/CreateAnAds';
+import MessagingViewVendor from '../messaging_vendor/MessagingViewVendor';
 
 export default function ViewProfileNavigation() {
     const Stack = createNativeStackNavigator();
@@ -28,6 +31,21 @@ export default function ViewProfileNavigation() {
                 name="RegisterAsAVendor"
                 component={RegisterAsAVendor}
                 options={{ title: 'Register as a vendor' }}>
+            </Stack.Screen>
+            <Stack.Screen
+                name="AllMessagingView"
+                component={AllMessagingView}
+                options={{ title: 'All Messaging View' }}>
+            </Stack.Screen>
+            <Stack.Screen
+                name="CreateAnAds"
+                component={CreateAnAds}
+                options={{ title: 'Create An Ads' }}>
+            </Stack.Screen>
+            <Stack.Screen
+                name="MessagingViewVendor"
+                component={MessagingViewVendor}
+                options={{ title: 'Messaging View Vendor' }}>
             </Stack.Screen>
         </Stack.Navigator>
         // </NavigationContainer>

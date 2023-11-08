@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, ImageBackground, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { Button, Image, ImageBackground, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, TouchableOpacity } from "react-native";
 import { EnviornmentVariable } from "../component/environment/EnvironmentVariable";
 import { styles } from "../component/styles/CommonStyles";
 
@@ -40,11 +40,11 @@ const ViewVendorList = ({ navigation }) => {
 
                 {categoriesData.map(category => {
                     return (
-                        <TouchableOpacity onPress={() => navigation.navigate("VendorByCategory")}>
+                        <TouchableOpacity style={{}} onPress={() => navigation.navigate("VendorByCategory", {"category": category.title})}>
                             <View style={{ aspectRatio: "3/1" }}>
-                                <ImageBackground source={category.imageUrl} resizeMode="cover" style={{ height: "100%" }}>
+                                <ImageBackground source={{uri: category.imageUrl}} resizeMode="cover" style={{ height: "100%" }}>
                                     <View style={styles.vendorPlaceholder}>
-                                        <Text style={styles.vendorTitle}>{category.title}</Text>
+                                        <Text style={styles.vendorTitle}>{category.title}</Text> 
                                     </View>
                                 </ImageBackground>
                             </View>

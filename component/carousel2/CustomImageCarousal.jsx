@@ -1,4 +1,4 @@
-import { View, useWindowDimensions, Text } from 'react-native';
+import { View, useWindowDimensions, Text, Platform } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import Animated, {
   useSharedValue,
@@ -8,7 +8,7 @@ import Animated, {
 import Pagination from './Pagination';
 import CustomImage from './CustomImage';
 import { styles } from '../styles/CommonStyles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 const CustomImageCarousal = ({ data, autoPlay, pagination, navigation }) => {
   const scrollViewRef = useAnimatedRef(null);
   const interval = useRef();
@@ -19,7 +19,7 @@ const CustomImageCarousal = ({ data, autoPlay, pagination, navigation }) => {
     // {key: 'spacer-right'},
   ]);
   const { width } = useWindowDimensions();
-  const SIZE = width * 0.25;
+  const SIZE = Platform.OS === 'android' ? width * 0.3 : width * 0.25;
   const SPACER = (width - SIZE) / 2;
   const x = useSharedValue(0);
   const offSet = useSharedValue(0);
@@ -77,21 +77,22 @@ const CustomImageCarousal = ({ data, autoPlay, pagination, navigation }) => {
         snapToInterval={SIZE}
         horizontal
         bounces={false}
-        showsHorizontalScrollIndicator={false}>
+        showsHorizontalScrollIndicator={true}>
         {newData.map((item, index) => {
+          // console.log(item)
           return (
-            <View style={{ margin: "2%" }}>
-              <TouchableOpacity onPress={() => navigation.navigate("VendorDetailsView")}>
-                <CustomImage
+            <View style={styles.homeCarosell}>
+              <TouchableOpacity onPress={() => navigation.navigate("VendorDetailsView", item)}>
+                {item.images[0] !== null && <CustomImage
                   key={index}
                   index={index}
-                  item={item}
+                  item={item.images[0]}
                   x={x}
                   size={SIZE}
                   spacer={SPACER}
-                />
-                {/*13 char */}
-                <Text style={styles.carouselText}>Jakarta Convention </Text>
+                /> }
+                <Text style={styles.carouselText}>{item.name}</Text>
+                <Text style={styles.carouselText}>{width}</Text>
               </TouchableOpacity>
             </View>
           );

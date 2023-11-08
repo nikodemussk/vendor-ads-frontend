@@ -6,38 +6,44 @@ import VendorDetailsView from '../vendor_details/VendorDetailsView';
 import ViewVendorList from './ViewVendorList';
 import ViewVendorCategory from '../view_vendor_category/ViewVendorCategory';
 import BookVendorView from '../book_vendor/BookVendorView';
+import MessagingView from '../messaging_client/MessagingView';
 
 export default function VendorListNavigation() {
     const Stack = createNativeStackNavigator();
     return (
 
         // <NavigationContainer>
-            <Stack.Navigator
-                screenOptions={{
-                    // headerShown: false
-                }}>
-                <Stack.Screen
-                    name="Vendor"
-                    component={ViewVendorList}
-                    //   backBehavior="none"
-                    options={{ title: 'Vendor' }}
-                >
-                </Stack.Screen>
-                <Stack.Screen
-                    name="VendorByCategory"
-                    component={ViewVendorCategory}
-                    //   backBehavior="none"
-                    options={{ title: 'Vendor By Category' }}
-                >
-                </Stack.Screen>
-                <Stack.Screen
-                    name="BookVendorView"
-                    component={BookVendorView}
-                    //   backBehavior="none"
-                    options={{ title: 'Book Vendor' }}
-                >
-                </Stack.Screen>
-            </Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                // headerShown: false
+            }}>
+            <Stack.Screen
+                name="Vendor"
+                component={ViewVendorList}
+                //   backBehavior="none"
+                options={{ title: 'Vendor' }}
+            >
+            </Stack.Screen>
+            <Stack.Screen
+                name="VendorByCategory"
+                component={ViewVendorCategory}
+                //   backBehavior="none"
+                options={{ title: 'Vendor By Category' }}
+            >
+            </Stack.Screen>
+            <Stack.Screen
+                name="BookVendorView"
+                component={BookVendorView}
+                //   backBehavior="none"
+                options={{ title: 'Book Vendor' }}
+            >
+            </Stack.Screen>
+            <Stack.Screen
+                name="MessagingView"
+                component={MessagingView}
+                options={{ title: 'Messaging View' }}>
+            </Stack.Screen>
+        </Stack.Navigator>
         // </NavigationContainer>
     );
 }

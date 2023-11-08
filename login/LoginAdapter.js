@@ -25,7 +25,7 @@ export async function validateUserLogin(navigation, email, password, setNotifica
                 return response.json();
             })
             .then(responseBody => {
-                console.log(responseBody)
+                // console.log(responseBody)
                 if (responseBody == null) return;
                 AsyncStorage.setItem('uuid', responseBody.userId)
                 .then(() => AsyncStorage.setItem('fullName', responseBody.fullName))
@@ -34,7 +34,7 @@ export async function validateUserLogin(navigation, email, password, setNotifica
             .catch(e => console.log(e));
     } else {
         setNotification("empty email or password")
-        console.log("empty email or password")
+        // console.log("empty email or password")
     }
 
     return;

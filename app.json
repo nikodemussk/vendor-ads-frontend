@@ -2,7 +2,7 @@
   "expo": {
     "jsEngine": "hermes",
     "name": "my-app",
-    "slug": "my-app",
+    "slug": "projectone",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,10 +22,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.helloniko.projectone"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c1fbae98-7ae0-4f6c-98fc-7ade01bd0de4"
+      }
+    },
+    "owner": "helloniko"
   }
 }
