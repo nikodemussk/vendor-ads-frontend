@@ -18,10 +18,10 @@ export default function VendorListNavigation() {
                 // headerShown: false
             }}>
             <Stack.Screen
-                name="Vendor"
+                name="Categories"
                 component={ViewVendorList}
                 //   backBehavior="none"
-                options={{ title: 'Vendor' }}
+                options={{ title: 'Categories' }}
             >
             </Stack.Screen>
             <Stack.Screen

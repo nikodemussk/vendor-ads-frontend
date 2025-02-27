@@ -34,9 +34,9 @@ const ViewVendorList = ({ navigation }) => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.fieldContainer}>
-                <Text style={styles.bigTitle}>
+                {/* <Text style={styles.bigTitle}>
                     Browse Categories
-                </Text>
+                </Text> */}
 
                 {categoriesData.map(category => {
                     return (

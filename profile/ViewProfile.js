@@ -4,6 +4,7 @@ import { Button, ImageBackground, SafeAreaView, StyleSheet, Text, TextInput, Vie
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { EnviornmentVariable } from "../component/environment/EnvironmentVariable";
 import { styles } from "../component/styles/CommonStyles";
+import { ConstantStyles } from "../component/styles/ConstantStyles";
 import { checkIfUserIsAVendor } from "./ViewProfileClient";
 
 const ViewProfile = ({ navigation }) => {
@@ -42,21 +43,22 @@ const ViewProfile = ({ navigation }) => {
                             <Button
                                 style={styles.profileButton}
                                 title={"Add Listing"}
-                                color="#EFD0DD"
-                                onPress={() => navigation.navigate('CreateAnAds', {"vendorUUID": vendorUUID})} />
+                                color={ConstantStyles.BRAND_COLOR}
+                                onPress={() => navigation.navigate('CreateAnAds', {"vendorUUID": vendorUUID})} 
+                                />
                         </View>
                         <View style={styles.profileButton} >
                             <Button
                                 style={styles.profileButton}
                                 title={"View Order"}
-                                color="#EFD0DD"
+                                color={ConstantStyles.BRAND_COLOR}
                                 onPress={() => navigation.navigate('RegisterAsAVendor')} />
                         </View>
                         <View style={styles.profileButton} >
                             <Button
                                 style={styles.profileButton}
                                 title={"View Message"}
-                                color="#EFD0DD"
+                                color={ConstantStyles.BRAND_COLOR}
                                 onPress={() => navigation.navigate('AllMessagingView', vendorUUID)} />
                         </View>
                     </View>
@@ -65,15 +67,16 @@ const ViewProfile = ({ navigation }) => {
                         <Button
                             style={styles.profileButton}
                             title={"Register as a Vendor"}
-                            color="#EFD0DD"
+                            color={ConstantStyles.BRAND_COLOR}
                             onPress={() => navigation.navigate('RegisterAsAVendor')} />
+
                     </View>
                 }
                 <View style={styles.profileButton} >
                     <Button
                         style={styles.profileButton}
                         title={"Log out"}
-                        color="#EFD0DD"
+                        color={ConstantStyles.BRAND_COLOR}
                         onPress={() => navigation.navigate('RegisterAsAVendor')} />
                 </View>
                 <View style={styles.profileButton} >

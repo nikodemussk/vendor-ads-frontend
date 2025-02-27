@@ -1,13 +1,18 @@
 import { StyleSheet } from 'react-native';
+import { ConstantStyles } from './ConstantStyles';
 
 export const andoridStyles = StyleSheet.create({
     inputContainer: {
         width: '100%'
     },
     profileButton: {
-        marginBottom: 3,
-        marginTop: 3,
-        textAlign: "center"
+        // marginBottom: 3,
+        // marginTop: 3,
+        textAlign: "center",
+        borderColor: ConstantStyles.BRAND_COLOR,
+        borderBottomWidth: 1,
+        borderTopWidth: 1,
+        color: ConstantStyles.BRAND_COLOR
     },
     vendorDetailsOrderNowButton: {
         color: "#FFFFFF",
@@ -57,10 +62,11 @@ export const andoridStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // width: '100%',
-        overflow: 'visible'
+        overflow: 'visible',
+        // minHeight: '90%'
     },
     fieldContainer: {
-        width: '100%'
+        width: '100%',
     },
     input: {
         textAlign: 'center',
@@ -88,5 +94,10 @@ export const andoridStyles = StyleSheet.create({
     },
     homeCarosell: {
         margin: 3,
+    },
+    titleHeader: {
+        fontSize: 20.0,
+        fontWeight: '700',
+        marginBottom: 1.5
     }
 });

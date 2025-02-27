@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { EnviornmentVariable } from "../component/environment/EnvironmentVariable";
 
 export async function validateUserLogin(navigation, email, password, setNotification) {
+    navigation.navigate('BottomNavigation');
+
     if (email !== "" && password !== "") {
         let bodyData = {
             "email": email,

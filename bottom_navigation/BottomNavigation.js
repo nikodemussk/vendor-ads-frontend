@@ -10,6 +10,7 @@ import ViewProfile from '../profile/ViewProfile';
 import ViewProfileNavigation from '../profile/ViewProfileNavigation';
 import MessagingView from '../messaging_client/MessagingView';
 import VendorAdminPage from '../vendor_admin_page/VendorAdminPage';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 const BottomNavigation = () => {
@@ -17,32 +18,45 @@ const BottomNavigation = () => {
 
     return (
         <Tab.Navigator
-        screenOptions={{
-            lazy: false,
-            headerShown: false,
-            swipeEnabled: true,
-            tabBarScrollEnabled: true,
-            tabBarItemStyle: { width: 150 },
-            tabBarActiveTintColor: '#e91e63',
-        }}
+            screenOptions={{
+                lazy: false,
+                headerShown: false,
+                swipeEnabled: true,
+                tabBarScrollEnabled: true,
+                tabBarItemStyle: { width: 150 },
+                tabBarActiveTintColor: '#e91e63',
+            }}
         >
             <Tab.Screen
                 name="Home"
                 component={HomeViewNavigation}
-                options={{ 
-                    sceneContainerStyle: {overflow: 'visible'},
-                    tabBarStyle: {overflow: 'visible'},
-                    title: 'Home' }}>
+                options={{
+                    sceneContainerStyle: { overflow: 'visible' },
+                    tabBarStyle: { overflow: 'visible' },
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="home" color={color} size={size} />
+                    ),
+                    title: 'Home'
+                }}>
             </Tab.Screen>
             <Tab.Screen
-                name="Vendors"
+                name="Categories"
                 component={VendorListNavigation}
-                options={{ title: 'Vendors' }}>
+                options={{ 
+                    title: 'Categories',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="magnify" color={color} size={size} />
+                    ), }}>
             </Tab.Screen>
             <Tab.Screen
                 name="Profile"
                 component={ViewProfileNavigation}
-                options={{ title: 'Profile' }}>
+                options={{
+                    title: 'Profile',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="account" color={color} size={size} />
+                    ),
+                }}>
             </Tab.Screen>
             {/* <Tab.Screen
                 name="VendorAdminPage"
